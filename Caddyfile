@@ -1,0 +1,3 @@
+kyncl.dev {
+    reverse_proxy portfolio_container:80
+}

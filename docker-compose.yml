@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  portfolio:
+    build: .
+    restart: always
+    container_name: portfolio_container
+    networks:
+      - web
+
+  caddy:
+    image: caddy:alpine
+    restart: always
+    container_name: caddy_proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - web
+    depends_on:
+      - portfolio
+      
+networks:
+  web:
+    driver: bridge  # <--- This must be indented by 2 spaces
+
+volumes:
+  caddy_data:
+  caddy_config:
